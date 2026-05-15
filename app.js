@@ -1,11 +1,13 @@
 require("dotenv").config();
 const express = require("express");
 const connectDB = require("./db/connect");
-const menuItemRouter = require("./routes/menu_item_routes")
+const menuItemRouter = require("./routes/menu_item_routes");
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use("/api/v1/menu-items", menuItemRouter)
+app.use(express.json());
+
+app.use("/api/v1/menu-items", menuItemRouter);
 
 const start = async () => {
   try {

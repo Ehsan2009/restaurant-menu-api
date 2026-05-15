@@ -1,9 +1,14 @@
-const getAllMenuItems = (req, res) => {
-  res.send("the list of menu items");
+const MenuItem = require("../models/menu_item");
+const { StatusCodes } = require("http-status-codes");
+
+const getAllMenuItems = async (req, res) => {
+  const menuItems = await MenuItem.find({});
+  res.status(StatusCodes.OK).json({ menuItems, count: menuItems.length });
 };
 
-const createMenuItem = (req, res) => {
-   res.send("a menu item created");
+const createMenuItem = async (req, res) => {
+  const menuItem = await MenuItem.create(req.body);
+  res.status(StatusCodes.CREATED).json({ menuItem });
 };
 
 module.exports = { getAllMenuItems, createMenuItem };
