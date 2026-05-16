@@ -8,7 +8,21 @@ const getAllCategories = async (req, res) => {
 };
 
 const createMenuItem = async (req, res) => {
-  const menuItem = await MenuItem.create(req.body);
+  const menuItem = req.body;
+  const category = await Category.findOne({ name: menuItem.category });
+
+  if (!category) {
+    return res
+      .status(StatusCodes.NOT_FOUND)
+      .json({ msg: "this category does't exist" });
+  }
+
+  // updating related category
+  await Category.findOneAndUpdate(
+    { name: menuItem.category },
+    { categoryItems: [...category.categoryItems, menuItem] },
+  );
+
   res.status(StatusCodes.CREATED).json({ menuItem });
 };
 
