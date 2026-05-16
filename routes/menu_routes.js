@@ -2,12 +2,14 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  getAllMenuItems,
+  createCategory,
   createMenuItem,
-} = require("../controllers/menu_item_controller");
+  getAllCategories,
+} = require("../controllers/menu_controller");
 const { uploadMenuItemImage } = require("../controllers/uploads_controller");
 
-router.route("/").get(getAllMenuItems).post(createMenuItem);
+router.route("/menu-item").post(createMenuItem);
+router.route("/category").get(getAllCategories).post(createCategory);
 router.route("/uploads").post(uploadMenuItemImage);
 
 module.exports = router;
