@@ -5,6 +5,15 @@ const menuItemRouter = require("./routes/menu_routes");
 const app = express();
 const port = process.env.PORT || 3000;
 
+const fileUpload = require("express-fileupload")
+// USE V2
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
 // extra security packages
 const helmet = require("helmet");
 const cors = require("cors");
@@ -21,6 +30,7 @@ app.use(
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
+app.use(fileUpload({useTempFiles: true}))
 
 app.use("/api/v1/menu", menuItemRouter);
 

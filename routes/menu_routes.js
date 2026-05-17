@@ -6,10 +6,10 @@ const {
   createMenuItem,
   getAllCategories,
 } = require("../controllers/menu_controller");
-const { uploadMenuItemImage } = require("../controllers/uploads_controller");
+const { uploadImage } = require("../controllers/uploads_controller");
 
 router.route("/menu-item").post(createMenuItem);
 router.route("/category").get(getAllCategories).post(createCategory);
-router.route("/uploads").post(uploadMenuItemImage);
+router.route("/uploads").post(uploadImage);
 
 module.exports = router;
