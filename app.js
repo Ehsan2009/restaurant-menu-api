@@ -5,7 +5,7 @@ const menuItemRouter = require("./routes/menu_routes");
 const app = express();
 const port = process.env.PORT || 3000;
 
-const fileUpload = require("express-fileupload")
+const fileUpload = require("express-fileupload");
 // USE V2
 const cloudinary = require("cloudinary").v2;
 cloudinary.config({
@@ -13,6 +13,9 @@ cloudinary.config({
   api_key: process.env.CLOUD_API_KEY,
   api_secret: process.env.CLOUD_API_SECRET,
 });
+
+// error handler
+const notFoundMiddleware = require("./middleware/not_found");
 
 // extra security packages
 const helmet = require("helmet");
@@ -30,9 +33,15 @@ app.use(
 app.use(helmet());
 app.use(cors());
 app.use(express.json());
-app.use(fileUpload({useTempFiles: true}))
+app.use(fileUpload({ useTempFiles: true }));
+
+app.get("/", (req, res) => {
+  res.send("<h2>Restaurant Menu API</h2>");
+});
 
 app.use("/api/v1/menu", menuItemRouter);
+
+app.use(notFoundMiddleware);
 
 const start = async () => {
   try {
